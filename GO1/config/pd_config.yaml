@@ -1,0 +1,10 @@
+robot: "go1" 
+
+joystick_device: "/dev/input/js0" 
+
+control_frequency: 500.0
+
+kp: 20.0
+kd: 1.0
+
+num_joint: 12

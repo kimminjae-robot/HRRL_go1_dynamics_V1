@@ -1,0 +1,13 @@
+prefix=/home/mjnb/HRRLab/go1_dynamics_Release1
+libdir=/home/mjnb/HRRLab/go1_dynamics_Release1/lib
+includedir=/home/mjnb/HRRLab/go1_dynamics_Release1/include/rbdl
+
+Name: RBDL
+Description: Rigid Body Dynamics Library
+URL: https://github.com/orb-hd/rbdl-orb
+Version: 3.1.3
+Requires: eigen3
+Conflicts:
+Libs: -L${libdir} -lrbdl -Wl,-rpath ${libdir}
+Libs.private:
+Cflags: -I${includedir}

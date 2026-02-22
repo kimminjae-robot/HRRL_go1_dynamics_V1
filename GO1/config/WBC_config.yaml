@@ -1,0 +1,51 @@
+robot:
+  name: "Go1"
+
+WBC:
+  Standing:
+    X:
+      kp: -50.0
+      kd: -20.0
+    Y:
+      kp: -50.0
+      kd: -20.0
+    Z:
+      kp: -500.0
+      kd: -250.0
+    roll:
+      kp: 0.0
+      kd: -100.0
+    pitch:     
+      kp: 0.0
+      kd: -100.0 
+    yaw:
+      kp: 0.0    
+      kd: -100.0
+
+  Walking:
+    X:
+      kp: -0.0
+      kd: -100.0
+    Y:
+      kp: -0.0
+      kd: -150.0
+    Z:
+      kp: -1000.0    #200
+      kd: -450.0    #100
+    roll:
+      kp: -100.0
+      kd: -100.0    #100
+    pitch:     
+      kp: -100.0
+      kd: -200.0    #200
+    yaw:
+      kp: 0.0
+      kd: -100.0
+
+SwingLeg:
+  TaskSpace:
+    kp: 500.0
+    kd: 10.0
+  ComputedTorqueControl:
+    kp: 4000.0
+    kd: 130

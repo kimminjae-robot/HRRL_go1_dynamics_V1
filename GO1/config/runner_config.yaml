@@ -1,0 +1,45 @@
+file_path: "../policy/"
+
+num_joint: 12
+
+# joint_idx_style: "isaaclab_to_rainbow"
+# joint_idx_conversion_isaaclab_to_rainbow:
+#   input: [9, 6, 3, 0, 10, 7, 4, 1, 11, 8, 5, 2]
+#   output: [3, 7, 11, 2, 6, 10, 1, 5, 9, 0, 4, 8]
+
+joint_idx_style: "no_conversion"
+joint_idx_conversion_no_conversion:
+    input:  [3, 0, 9, 6, 4, 1, 10, 7,5 ,2, 11, 8]
+    # output: [9, 1, 5, 8, 0, 4, 7,11, 3, 6,10, 2]
+    output: [0, 1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11]
+    # output: [3, 4, 5, 0, 1, 2, 9, 10, 11,  6, 7, 8 ]
+
+joint_idx_style: "unitree_conversion"
+joint_idx_conversion_unitree_conversion:
+    input:  [0, 1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11]
+    output: [3, 4, 5, 0, 1, 2, 9, 10, 11,  6, 7, 8 ]
+
+
+#matched to Isaac config order
+default_joint_angle:
+  - 0.0
+  - 0.9
+  - -1.8
+  - 0.0
+  - 0.9
+  - -1.8
+  - 0.0
+  - 0.9
+  - -1.8
+  - 0.0
+  - 0.9
+  - -1.8
+
+scale:
+  dof_pos: 1.0
+  dof_vel: 0.05
+  ang_vel: 0.25
+  lin_vel: 2.0
+  action_scale: 0.25
+
+action_clip : 100

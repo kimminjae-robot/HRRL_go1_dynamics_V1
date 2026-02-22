@@ -1,0 +1,91 @@
+cmake_minimum_required(VERSION 3.10)
+project(go1)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(MUJOCO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+set(ONNX_DIR ${CMAKE_CURRENT_SOURCE_DIR}/onnxruntime)
+
+find_package(PkgConfig REQUIRED)
+find_package(Eigen3 REQUIRED HINTS ${Eigen3_HINT})
+pkg_search_module(GLFW REQUIRED glfw3)
+pkg_search_module(ZMQ   REQUIRED libzmq) 
+
+
+include_directories(
+    ${MUJOCO_DIR}/include
+    ${GLFW_INCLUDE_DIRS}
+    ${ZMQ_INCLUDE_DIRS} 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/simulate
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/Dynamics 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/Dynamics/Esitimator 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/Dynamics/Calculator
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/Dynamics/Algorithm 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/Dynamics/DataStremer 
+    ${EIGEN3_INCLUDE_DIRS}
+    ${ONNX_DIR}/include
+     ${CMAKE_CURRENT_SOURCE_DIR}/external/cppzmq
+)
+
+link_directories(
+    ${MUJOCO_DIR}/lib
+    ${ONNX_DIR}/lib
+    ${ZMQ_LIBRARY_DIRS}  
+)
+
+
+# #-----------------Mujoco Simulate Header--------------
+# # set(SIMULATE_SOURCES
+# #   src/simulate/simulate.cc
+# #   src/simulate/glfw_adapter.cc
+# #   src/simulate/glfw_dispatch.cc
+# #   src/simulate/platform_ui_adapter.cc
+# # )
+
+file(GLOB SIMULATE_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/simulate/*.cc"
+)
+add_library(simulate STATIC ${SIMULATE_SOURCES})
+#-------------------------------------------------------
+
+file(GLOB_RECURSE CONTROLLER_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/controllers/*.cpp"
+)
+add_library(controllers STATIC ${CONTROLLER_SOURCES})
+
+
+add_executable(test src/main.cpp)
+target_link_libraries(controllers PUBLIC ${ZeroMQ_LIBRARIES})
+
+target_link_libraries(test
+    simulate
+    controllers
+    
+    mujoco
+    GL
+    pthread
+    dl
+    m
+    Eigen3::Eigen
+    yaml-cpp
+    onnxruntime
+    ${GLFW_LIBRARIES}
+    ${ZeroMQ_LIBRARIES} 
+)
+# -------- RBDL 수동 경로 설정 --------
+include_directories($ENV{HOME}/DynamicsTool/rbdl/include)
+link_directories($ENV{HOME}/DynamicsTool/rbdl/lib)
+target_link_libraries(test
+  rbdl
+  rbdl_urdfreader
+)
+
+# -------- qpSWIFT --------
+find_package(qpSWIFT REQUIRED)
+target_include_directories(controllers PUBLIC  ${qpSWIFT_INCLUDE_DIRS})
+target_link_libraries(controllers PUBLIC
+  qpSWIFT::qpSWIFT-static
+  qpSWIFT::qpSWIFT-shared
+)
