@@ -10,31 +10,38 @@ QP Solver: qpSWIFT
 
 🚀 주요 구현 기능
 1. 상태 추정 및 제어 (Estimation & Control)
-칼만필터 선속도 추정기
-WBC (Whole Body Control)
-Task Space / CTC (Computed Torque Control)
-칼만필터 외란 관측기 (Disturbance Observer)
+    칼만필터 선속도 추정기
+    WBC (Whole Body Control)
+    Task Space / CTC (Computed Torque Control)
+    칼만필터 외란 관측기 (Disturbance Observer)
 
 2. 지형 적응 및 안전 (Terrain Adaptation & Safety)
-나이브 베이즈 발끝 슬립 확률 계산
-경사 추정
+    나이브 베이즈 발끝 슬립 확률 계산
+    경사 추정
 
 3. 유틸리티 및 통신 (Utility & Communication)
-동역학/기하학 계산기
-TCP 데이터 통신
-파이썬 시각화
+    동역학/기하학 계산기
+    TCP 데이터 통신
+    파이썬 시각화
 
 ## 실행 방법
 
 ### 빌드 (프로젝트 루트에서)
+'''
 rm -rf build
 mkdir -p build
 cd build
 
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
-
+'''
 ### 실행
+'''
 cd build 
 ./test ../../model/scene.xml
-
+'''
+### 그래프
+'''
+cd GO1/external
+python plot.py
+'''
